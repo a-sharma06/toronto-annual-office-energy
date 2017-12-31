@@ -1,0 +1,130 @@
+<script src='https://api.mapbox.com/mapbox-gl-js/v0.42.1/mapbox-gl.js'></script>
+<link href='https://api.mapbox.com/mapbox-gl-js/v0.42.1/mapbox-gl.css' rel='stylesheet' />
+
+<div id='map'></div>
+<div class='map-overlay' id='features'><h2>Annual Energy Consumption by Office Buildings in Toronto (kWh)</h2><div id='pd'><p>Hover over a building</p></div></div>
+<div class='map-overlay' id='legend'></div>
+
+<style>
+body {
+  margin: 0;
+  padding: 0;
+}
+
+h2,
+h3 {
+  margin: 10px;
+  font-size: 1.2em;
+}
+
+h3 {
+  font-size: 1em;
+}
+
+p {
+  font-size: 0.85em;
+  margin: 10px;
+  text-align: left;
+}
+
+/**
+* Create a position for the map
+* on the page */
+#map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+/**
+* Set rules for how the map overlays
+* (info box and legend) will be displayed
+* on the page. */
+.map-overlay {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.8);
+  margin-right: 20px;
+  font-family: Arial, sans-serif;
+  overflow: auto;
+  border-radius: 3px;
+}
+
+#features {
+  top: 0;
+  height: 100px;
+  margin-top: 20px;
+  width: 400px;
+}
+
+#legend {
+  padding: 10px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  line-height: 18px;
+  height: 150px;
+  margin-bottom: 40px;
+  width: 200px;
+}
+
+.legend-key {
+  display: inline-block;
+  border-radius: 20%;
+  width: 10px;
+  height: 10px;
+  margin-right: 5px;
+}
+
+</style>
+
+<script>
+mapboxgl.accessToken = 'pk.eyJ1IjoiYS1zaGFybWEiLCJhIjoiY2pidWQwczU3MWhpbDJ3cjZuMmN0eDB1NyJ9.RHb88qaCpUq74s5qHuRzGg';
+
+var map = new mapboxgl.Map({
+  container: 'map', // container id
+  style: 'mapbox://styles/a-sharma/cjbmpkug23kle2sl9q6gmlhdl' // replace this with your style URL
+});
+
+
+map.on('load', function() {
+  // the rest of the code will go in here
+	var layers = ['0-200,000', '200,000-300,000', '300,000-400,000', '400,000-500,000', '500,000-600,000', '600,000-700,000', '700,000-800,000', '800,000-900,000', '900,000-1,000,000', '1,000,000-2,000,000', '2,000,000-4,000,000', '4,000,000-6,000,000', '6,000,000-8,000,000', '8,000,000-10,000,000'];
+	var colors = ['#100606', '#210C0C', '#321212', '#431818', '#531F1F', '#642525', '#752B2B', '#863131', '#973737','#A73E3E','#B84444','#C94A4A','#DA5050', '#EB5757'];
+	
+	for (i = 0; i < layers.length; i++) {
+	  var layer = layers[i];
+	  var color = colors[i];
+	  var item = document.createElement('div');
+	  var key = document.createElement('span');
+	  key.className = 'legend-key';
+	  key.style.backgroundColor = color;
+
+	  var value = document.createElement('span');
+	  value.innerHTML = layer;
+	  item.appendChild(key);
+	  item.appendChild(value);
+	  legend.appendChild(item);
+	}
+
+	map.on('mousemove', function(e) {
+	  var states = map.queryRenderedFeatures(e.point, {
+		layers: ['energy-result-duxmcq']
+	  });
+
+	  if (states.length > 0) {
+		document.getElementById('pd').innerHTML = '<h3>' + states[0].properties.Prd_T_W.toLocaleString(undefined, {maximumFractionDigits:2}) + ' kWh</em></p>';
+	  } else {
+		document.getElementById('pd').innerHTML = '<p>Hover over a building</p>';
+	  }
+	});
+	
+	map.getCanvas().style.cursor = 'default';
+
+	map.fitBounds([[43.750850, 43.795607], [-79.649102, -79.113897]]);
+
+});
+
+
+
+</script>
