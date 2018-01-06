@@ -13,8 +13,11 @@ This project uses a linear regression model to estimate the annual energy consum
 Model Used: log(Total_Energy_kWh) ~ log(AVG_HEIGHT*SHAPE_AREA)
 
 Where,
+
 Total_Energy_kWh = Annual Energy Consumption in kWh
+
 AVG_HEIGHT = Average Building Height, obtained from 3D Massing Data
+
 SHAPE_AREA =  Building Footprint Area in Square Meters, obtained from 3D Massing Data
 
 These datasets are:
