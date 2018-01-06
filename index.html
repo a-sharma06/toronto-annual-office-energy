@@ -113,7 +113,7 @@ map.on('load', function() {
 	  });
 
 	  if (states.length > 0) {
-		document.getElementById('pd').innerHTML = '<h3>' + states[0].properties.Prd_T_W.toLocaleString(undefined, {maximumFractionDigits:2}) + ' kWh</em></p>';
+		document.getElementById('pd').innerHTML = '<h3>' + states[0].properties.Prd_T_W.toLocaleString(undefined, {maximumFractionDigits:2}) + ' kWh, and ' + states[0].properties.SHAPE_A.toLocaleString(undefined, {maximumFractionDigits:2}) + ' sq. m.</em></p>';
 	  } else {
 		document.getElementById('pd').innerHTML = '<p>Hover over a building</p>';
 	  }
